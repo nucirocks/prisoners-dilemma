@@ -1,4 +1,3 @@
-from __future__ import print_function
 
 ##### 
 # Computer Science and Software Engineering
@@ -32,20 +31,22 @@ from __future__ import print_function
 #######
 import random
 import os.path              
-    
+import importlib
+import math
+
 import example0, example1, example2, example3
 import example4, example5, example6, example7
 import team0, team1, team2, team3, team4
 import team5, team6, team7, team8, team9
-import team10, team11, team12, team13, team14
+import team10, team11, team12, team13, team14, team15
 betray = example1
 collude = example0
 
 modules = [example0, example1, example2, example3, example4, example5, example6, example7,
 team0, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, 
-team11, team12, team13, team14]
+team11, team12, team13, team14, team15]
 for module in modules:
-    reload(module)
+    importlib.reload(module)
     print ('reloaded',module)
     for required_variable in ['team_name', 'strategy_name', 'strategy_description']:
         if not hasattr(module, required_variable):
@@ -240,13 +241,13 @@ def make_section1(modules, scores):
     for index in range(len(modules)):
         section1 += 'vs. P' + str(index) + ' :'
         for i in range(len(modules)):
-            section1 += '{:>7}'.format(scores[i][index])
+            section1 += '{:>7.1f}'.format(scores[i][index])
         section1 += '\n'
 
     # Last line
     section1 += 'TOTAL  :'
     for index in range(len(modules)):
-        section1 += '{:>7}'.format(sum(scores[index]))     
+        section1 += '{:>7.1f}'.format(sum(scores[index]))     
     return section1+'\n'
     
 def make_section2(modules, scores):
@@ -270,13 +271,13 @@ def make_section2(modules, scores):
                               'P'+str(index),
                               str(sum(scores[index])/len(modules)),
                               str(modules[index].strategy_name)))
-    section2_list.sort(key=lambda x: int(x[2]), reverse=True)
+    section2_list.sort(key=lambda x: math.floor(float(x[2])), reverse=True)
     
     # Generate one string per team
     # Rockettes (P1):  -500 points with Backstabber
     for team in section2_list:
         team_name, Pn, n_points, strategy_name = team
-        section2 += '{:<10}({}): {:>10} points with {:<40}\n'.format(team_name[:10], Pn, n_points, strategy_name[:40])                       
+        section2 += '{:<10}({}): {:>10.1f} points with {:<40}\n'.format(team_name[:10], Pn, float(n_points), strategy_name[:40])                       
     return section2 
     
 def make_section3(modules, moves, scores, index):
@@ -347,12 +348,12 @@ def make_code_string(modules):
     return code
 
 def copy_template():
-    '''Transfer code in team0.py to team1.py though team14.py
+    '''Transfer code in team0.py to team1.py though team15.py
     '''
     directory = os.path.dirname(os.path.abspath(__file__))  
     with open(os.path.join(directory, 'team0.py'), 'r') as sourcefile:
         source = sourcefile.readlines()
-    for i in range(1, 15):
+    for i in range(1, 16):
         target = 'team'+str(i)+'.py'
         filename = os.path.join(directory, target)
         with open(filename, 'w') as target_file:
