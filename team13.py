@@ -17,9 +17,9 @@ def move(my_history, their_history, my_score, their_score):
             try:
                 return opponent.history[-1]
             except IndexError:
-                print ('C')
+               return 'C'
             else:
-                print( 'D')
+               return 'D'
 
     def __repr__(self):
         return 'Tit For Tat'
